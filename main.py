@@ -1,6 +1,12 @@
 command = None
 v_file = None
 o_file = None
+v_codec = None
+a_codec = None
+v_bitrate = None
+a_bitrate = None
+fps = None
+res = None
 
 print("Welcome to the FFmpeg command builder")
 
@@ -34,6 +40,15 @@ if input("Change audio bitrate? y/n ") == "y":
 else:
     print("Not changing audio bitrate")
 
-if input("Change video fps? y/n ")
+if input("Change video fps? y/n ") == "y":
+    fps = input("New FPS: ")
+    fps = f"-r {fps}"
+else:
+    print("Not changing FPS")
+
+# if input("New resolution? y/n ") == "y":
+
+
+command = f"{v_file} {o_file} {v_codec} {a_codec} {v_bitrate} {a_bitrate} {fps}" 
 
 print(f"Copy paste this command {command}")
