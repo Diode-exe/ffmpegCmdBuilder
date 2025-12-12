@@ -103,7 +103,8 @@ if input("Do you want to change directories and automatically run the generated 
     if input(f"The command to run is {command}, is this suitable? y/n") == "y":
         print("Running command in 3 seconds...")
         time.sleep(3)
-        subprocess.run(["ffmpeg.exe"], [command])
+        args = ["ffmpeg.exe"] + command.split()
+        subprocess.run(args)
 else:
     print("Got it, not automatically running it")
     print(f"Copy paste this command {command}")
