@@ -1,4 +1,6 @@
 import os
+import time
+import subprocess
 
 command = None
 v_file = ""
@@ -84,8 +86,8 @@ if input("Do you want to add video filters? y/n") == "y":
 else:
     print("Not adding video filters")
 
-command = f"{v_file} {o_file} {v_codec} {a_codec} {v_bitrate} {a_bitrate} \
-        {fps} {res} {duration_to_process} {start_time} {overwrite_if_exists}" 
+command = f"{v_file} {v_codec} {a_codec} {v_bitrate} {a_bitrate} \
+        {fps} {res} {duration_to_process} {start_time} {overwrite_if_exists} {vf} {o_file}" 
 
 print(f"This is your current working directory: {os.getcwd()}")
 
@@ -98,5 +100,10 @@ if input("Do you want to change directories and automatically run the generated 
             print("Sounds good, continuing")
             correct_dir = True
     os.chdir(dir_to_arrive)
-
-print(f"Copy paste this command {command}")
+    if input(f"The command to run is {command}, is this suitable? y/n") == "y":
+        print("Running command in 3 seconds...")
+        time.sleep(3)
+        subprocess.run(["ffmpeg.exe"], [command])
+else:
+    print("Got it, not automatically running it")
+    print(f"Copy paste this command {command}")
