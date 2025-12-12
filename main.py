@@ -1,12 +1,15 @@
 command = None
-v_file = None
-o_file = None
-v_codec = None
-a_codec = None
-v_bitrate = None
-a_bitrate = None
-fps = None
-res = None
+v_file = ""
+o_file = ""
+v_codec = ""
+a_codec = ""
+v_bitrate = ""
+a_bitrate = ""
+fps = ""
+res = ""
+duration_to_process = ""
+start_time = ""
+overwrite_if_exists = ""
 
 print("Welcome to the FFmpeg command builder")
 
@@ -46,9 +49,30 @@ if input("Change video fps? y/n ") == "y":
 else:
     print("Not changing FPS")
 
-# if input("New resolution? y/n ") == "y":
+if input("New resolution? y/n ") == "y":
+    res = input("New resolution: ")
+    res = f"-s {res}"
+else:
+    print("Not changing resolution")
 
+if input("Change duration to process? y/n ") == "y":
+    duration_to_process = input("New duration to process: ")
+    duration_to_process = f"-t {duration_to_process}"
+else:
+    print("Not changing duration to process")
 
-command = f"{v_file} {o_file} {v_codec} {a_codec} {v_bitrate} {a_bitrate} {fps}" 
+if input("Change start time? y/n ") == "y":
+    start_time = input("New start time: ")
+    start_time = f"-ss {start_time}"
+else:
+    print("Not changing start time")
+
+if input("Overwrite output if already exists? y/n ") == "y":
+    overwrite_if_exists = "-y"
+else:
+    print("Will not overwrite output if already exists")
+
+command = f"{v_file} {o_file} {v_codec} {a_codec} {v_bitrate} {a_bitrate} \
+        {fps} {res} {duration_to_process} {start_time} {overwrite_if_exists}" 
 
 print(f"Copy paste this command {command}")
