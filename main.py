@@ -1,6 +1,7 @@
 import os
 import time
 import subprocess
+import shlex
 
 command = None
 v_file = ""
@@ -16,14 +17,13 @@ start_time = ""
 overwrite_if_exists = ""
 vf = ""
 correct_dir = False
+v_file_input = None
 
 print("Welcome to the FFmpeg command builder")
 
-v_file = input("Filename of the video to edit: ")
-
-v_file = f"-i {v_file}"
-
-o_file = input("Name of the output file? ")
+v_file_input = input("Filename of the video to edit: ")
+v_file = f"-i {shlex.quote(v_file_input)}"
+o_file = shlex.quote(input("Name of the output file? "))
 
 if input("Change video codec? y/n ") == "y":
     v_codec = input("New codec: ")
@@ -86,8 +86,9 @@ if input("Do you want to add video filters? y/n") == "y":
 else:
     print("Not adding video filters")
 
-command = f"{v_file} {v_codec} {a_codec} {v_bitrate} {a_bitrate} \
-        {fps} {res} {duration_to_process} {start_time} {overwrite_if_exists} {vf} {o_file}" 
+command = " ".join(filter(None, [v_file, v_codec, a_codec, v_bitrate, a_bitrate, \
+                                 fps, res, duration_to_process, start_time, overwrite_if_exists, vf, o_file]))
+
 
 print(f"This is your current working directory: {os.getcwd()}")
 
@@ -103,7 +104,7 @@ if input("Do you want to change directories and automatically run the generated 
     if input(f"The command to run is {command}, is this suitable? y/n") == "y":
         print("Running command in 3 seconds...")
         time.sleep(3)
-        args = ["ffmpeg.exe"] + command.split()
+        args = ["ffmpeg.exe"] + shlex.split(command)
         subprocess.run(args)
 else:
     print("Got it, not automatically running it")
