@@ -1,3 +1,5 @@
+import os
+
 command = None
 v_file = ""
 o_file = ""
@@ -10,6 +12,8 @@ res = ""
 duration_to_process = ""
 start_time = ""
 overwrite_if_exists = ""
+vf = ""
+correct_dir = False
 
 print("Welcome to the FFmpeg command builder")
 
@@ -72,7 +76,27 @@ if input("Overwrite output if already exists? y/n ") == "y":
 else:
     print("Will not overwrite output if already exists")
 
+if input("Do you want to add video filters? y/n") == "y":
+    vf = input("(You will have to do this manually, \
+                I am not yet able validate your input) \
+                Video filters: ")
+    vf = f"-vf {vf}"
+else:
+    print("Not adding video filters")
+
 command = f"{v_file} {o_file} {v_codec} {a_codec} {v_bitrate} {a_bitrate} \
         {fps} {res} {duration_to_process} {start_time} {overwrite_if_exists}" 
+
+print(f"This is your current working directory: {os.getcwd()}")
+
+if input("Do you want to change directories and automatically run the generated command? y/n ") == "y":
+    while not correct_dir:
+        dir_to_arrive = input("What directory do you want to get to (can be relative or absolute)? ")
+        if input(f"Is this correct y/n? {dir_to_arrive} ") == "n":
+            print("Trying again...")
+        else:
+            print("Sounds good, continuing")
+            correct_dir = True
+    os.chdir(dir_to_arrive)
 
 print(f"Copy paste this command {command}")
