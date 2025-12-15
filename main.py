@@ -16,6 +16,7 @@ duration_to_process = ""
 start_time = ""
 overwrite_if_exists = ""
 vf = ""
+preset = ""
 correct_dir = False
 v_file_input = None
 
@@ -86,8 +87,23 @@ if input("Do you want to add video filters? y/n") == "y":
 else:
     print("Not adding video filters")
 
+if input("Do you want to select preset? (Encoding speed vs quality tradeoff) y/n ") == "y":
+    preset = input("""Preset? (encoding speed vs quality)
+                    ultrafast
+                    superfast
+                    veryfast
+                    faster
+                    fast
+                    medium
+                    slow
+                    slower
+                    veryslow
+                    placebo """)
+    preset = f"-preset {preset}"
+ 
+
 command = " ".join(filter(None, [v_file, v_codec, a_codec, v_bitrate, a_bitrate, \
-                                 fps, res, duration_to_process, start_time, overwrite_if_exists, vf, o_file]))
+                                 fps, res, duration_to_process, start_time, overwrite_if_exists, vf, preset, o_file]))
 
 
 print(f"This is your current working directory: {os.getcwd()}")
